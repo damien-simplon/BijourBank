@@ -25,7 +25,12 @@ $(document).ready(function () {
     for(var param of params){
       values[i] = param[1];
       i++;
+      if(values[3].includes("-")){
+        values[3] = values[3].split("-");
+        values[3] = values[3][1];
+      }
     }
+    
     console.log(values);
 
     //localStorage.clear();
