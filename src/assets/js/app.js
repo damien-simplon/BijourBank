@@ -24,11 +24,11 @@ $(document).ready(function () {
     var i = 0;
     for(var param of params){
       values[i] = param[1];
-      i++;
-      if(values[3].includes("-")){
-        values[3] = values[3].split("-");
-        values[3] = values[3][1];
+      if(values[i].substring(0,1) == "-"){
+        values[i] = values[i].split("-");
+        values[i] = values[i][1];
       }
+      i++;
     }
     
     console.log(values);
@@ -117,6 +117,17 @@ $(document).ready(function () {
 
     var montantGet = document.getElementById("solde");
     montantGet.innerHTML = montant + ".00 €";
+
+    var goodBad = document.getElementById("goodBad");
+    if(montant < 1000){
+      goodBad.classList.remove("good");
+      goodBad.classList.add("bad");
+      goodBad.innerHTML = "ça commence à être la crise !"
+    }else{
+      goodBad.classList.remove("bad");
+      goodBad.classList.add("good");
+      goodBad.innerHTML = "on est bien 😃";
+    }
 
     operationGet = document.getElementsByClassName("operation");
     var removeOperationsLength = operationGet.length - 1;
