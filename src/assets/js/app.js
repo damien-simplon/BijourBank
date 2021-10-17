@@ -33,7 +33,7 @@ $(document).ready(function () {
     
     console.log(values);
 
-    localStorage.clear();
+    //localStorage.clear();
 
     var operationGet;
     var titreGet;
