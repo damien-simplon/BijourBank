@@ -1,55 +1,66 @@
+$(document).ready(function () {
+    $(document).foundation();
+});
 console.log('Bijour Bank !');
 /**
  * init foundation
  */
-$(document).ready(function () {
-	$(document).foundation();
+function setData() {
+	var datastorage = {
+		titre: document.getElementById('titre').value,
+		desc: document.getElementById('desc').value,
+		montant: document.getElementById('montant').value,
+		operator: document.getElementById('operator').value,
+	};
+	localStorage.setItem(Date.now(), JSON.stringify(datastorage));
+}
 
-	function setData() {
-		var datastorage = {
-			titre: document.getElementById('titre').value,
-			desc: document.getElementById('desc').value,
-			montant: document.getElementById('montant').value,
-			operator: document.getElementById('operator').value,
-		};
-		localStorage.setItem(datastorage.titre, JSON.stringify(datastorage));
+let montantCredit = 0;
+let montantDebit = 0;
+for (let i = 0; i < localStorage.length; i++) {
+    const element = localStorage.key(i);
+	let obj = JSON.parse(localStorage.getItem(element));
+	var img = '';
+	if (obj.operator == 'credit') {
+		img = 'sac-dargent';
+        montantCredit = montantCredit + Number(obj.montant);
+	} else {
+		img = 'depenses';
+        montantDebit = montantDebit + Number(obj.montant);
 	}
 
-	for (let i = 0; i < localStorage.length; i++) {
-		const element = localStorage.key(i);
-		let obj = JSON.parse(localStorage.getItem(element));
-		var img = '';
-		if (obj.operator == 'credit') {
-			img = 'sac-dargent';
-		} else {
-			img = 'depenses';
-		}
-
-		var html = `
+	var html = `
+    <div class="grid-container">
         <div class="operation ${obj.operator}">
-          <div class="grid-x grid-padding-x align-middle">
-            <div class="cell shrink">
-              <div class="picto">
-                <img src="./assets/images/${img}.png" alt="${obj.operator}" />
-              </div>
+            <div class="grid-x grid-padding-x align-middle">
+                <div class="cell shrink">
+                    <div class="picto">
+                        <img src="./assets/images/${img}.png" alt="${obj.operator}" />
+                    </div>
+                </div>
+                <div class="cell auto">
+                    <div>
+                        <h2>${obj.titre}</h2>
+                        <small>${obj.desc}</small>
+                    </div>
+                </div>
+                <div class="cell small-3 text-right">
+                    <div>
+                        <p class="count">${obj.montant} €</p>
+                        <small>100%</small>
+                    </div>
+                </div>
             </div>
-            <div class="cell auto">
-              <div>
-                <h2>${obj.titre}</h2>
-                <small>${obj.desc}</small>
-              </div>
-            </div>
-            <div class="cell small-3 text-right">
-              <div>
-                <p class="count">${obj.montant}</p>
-                <small>100%</small>
-              </div>
-            </div>
-          </div>
-          </div>`;
-		var repalce = document.getElementById('grid-container');
-		repalce.insertAdjacentHTML('afterbegin', html);
-	}
+        </div>
+    </div>
+    `;
+    var repalce = document.getElementById('grid-container');
+	repalce.insertAdjacentHTML('afterend', html);
+}
+
+var solde = document.getElementById("solde");
+solde.innerHTML = montantCredit - montantDebit + ".00€";
+
 
 	/*
     var get = function(tableauGet){
@@ -220,4 +231,3 @@ $(document).ready(function () {
     }
     
     */
-});
