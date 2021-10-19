@@ -3,9 +3,8 @@ var datapoints = [0];
 
 montantCredit = 0;
 montantDebit = 0;
-for (let i = localStorage.length -1; i >= 0; i--) {
-	const element = localStorage.key(i);
-	let obj = JSON.parse(localStorage.getItem(element));
+for (let i = 0; i < localStorage.length; i++) {
+	let obj = JSON.parse(localStorage.getItem(i));
 	if (obj.operator == 'credit') {
 		montantCredit = montantCredit + Number(obj.montant);
 	} else {

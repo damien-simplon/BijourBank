@@ -11,18 +11,18 @@ function setData() {
 		titre: document.getElementById('titre').value,
 		desc: document.getElementById('desc').value,
 		montant: document.getElementById('montant').value,
-		operator: document.getElementById('operator').value,
+		operator: document.getElementById('operator').value
 	};
-	localStorage.setItem(i, JSON.stringify(datastorage));
+	localStorage.setItem(i, JSON.stringify(datastorage));  
 }
+
 let montantCredit = 0;
 let montantDebit = 0;
 var repalce = document.getElementById('grid-container');
 
-for (let i = 0; i < localStorage.length; i++) {
-	let element = localStorage.key(i);
-  console.log(localStorage.key(i));
-	let obj = JSON.parse(localStorage.getItem(element));
+for(let i = 0; i < localStorage.length; i++) {
+  console.log(localStorage.getItem(i));
+	let obj = JSON.parse(localStorage.getItem(i));
 	var img = '';
 	if (obj.operator == 'credit') {
 		img = 'sac-dargent';
