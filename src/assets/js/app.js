@@ -18,7 +18,7 @@ function setData() {
 let montantCredit = 0;
 let montantDebit = 0;
 for (let i = 0; i < localStorage.length; i++) {
-	const element = localStorage.key(i);
+	let element = localStorage.key(i);
 	let obj = JSON.parse(localStorage.getItem(element));
 	var img = '';
 	if (obj.operator == 'credit') {
@@ -32,7 +32,7 @@ for (let i = 0; i < localStorage.length; i++) {
   let montantCreditTotal = 0;
   let montantDebitTotal = 0;
 	for (let j = 0; j < localStorage.length; j++) {
-    const elementTotal = localStorage.key(j);
+    let elementTotal = localStorage.key(j);
     let objTotal = JSON.parse(localStorage.getItem(elementTotal));
 		if (objTotal.operator == 'credit') {
 			montantCreditTotal = montantCreditTotal + Number(objTotal.montant);
@@ -42,7 +42,6 @@ for (let i = 0; i < localStorage.length; i++) {
 	}
 
 	var html = `
-    <div class="grid-container">
         <div class="operation ${obj.operator}">
             <div class="grid-x grid-padding-x align-middle">
                 <div class="cell shrink">
@@ -64,10 +63,9 @@ for (let i = 0; i < localStorage.length; i++) {
                 </div>
             </div>
         </div>
-    </div>
     `;
 	var repalce = document.getElementById('grid-container');
-	repalce.insertAdjacentHTML('afterend', html);
+	repalce.insertAdjacentHTML('afterbegin', html);
 }
 
 var solde = document.getElementById('solde');

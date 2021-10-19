@@ -1,6 +1,21 @@
 // <block:setup:1>
-const datapoints = [1200, 750, 775, 760, 2560];
-const DATA_COUNT = datapoints.length + 2;
+var datapoints = [0];
+
+montantCredit = 0;
+montantDebit = 0;
+for (let i = localStorage.length -1; i >= 0; i--) {
+	const element = localStorage.key(i);
+	let obj = JSON.parse(localStorage.getItem(element));
+	if (obj.operator == 'credit') {
+		montantCredit = montantCredit + Number(obj.montant);
+	} else {
+		montantDebit = montantDebit + Number(obj.montant);
+	}
+  let montantTotal = montantCredit - montantDebit;
+  datapoints.push(montantTotal);
+}
+
+var DATA_COUNT = datapoints.length + 2;
 const labels = [];
 for (let i = 0; i < DATA_COUNT; ++i) {
   labels.push(i.toString());
