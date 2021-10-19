@@ -6,19 +6,22 @@ console.log('Bijour Bank !');
  * init foundation
  */
 function setData() {
+  let i = localStorage.length;
 	var datastorage = {
 		titre: document.getElementById('titre').value,
 		desc: document.getElementById('desc').value,
 		montant: document.getElementById('montant').value,
 		operator: document.getElementById('operator').value,
 	};
-	localStorage.setItem(Date.now(), JSON.stringify(datastorage));
+	localStorage.setItem(i, JSON.stringify(datastorage));
 }
-
 let montantCredit = 0;
 let montantDebit = 0;
+var repalce = document.getElementById('grid-container');
+
 for (let i = 0; i < localStorage.length; i++) {
 	let element = localStorage.key(i);
+  console.log(localStorage.key(i));
 	let obj = JSON.parse(localStorage.getItem(element));
 	var img = '';
 	if (obj.operator == 'credit') {
@@ -40,7 +43,7 @@ for (let i = 0; i < localStorage.length; i++) {
 			montantDebitTotal = montantDebitTotal + Number(objTotal.montant);
 		}
 	}
-
+  
 	var html = `
         <div class="operation ${obj.operator}">
             <div class="grid-x grid-padding-x align-middle">
@@ -58,18 +61,28 @@ for (let i = 0; i < localStorage.length; i++) {
                 <div class="cell small-3 text-right">
                     <div>
                         <p class="count">${obj.montant}€</p>
-                        <small>${ obj.operator == "credit" ? 100 * obj.montant / montantCreditTotal : 100 * obj.montant / montantDebitTotal}%</small>
+                        <small>${obj.operator == "credit" ? 100 * obj.montant / montantCreditTotal : 100 * obj.montant / montantDebitTotal}%</small>
                     </div>
                 </div>
             </div>
         </div>
     `;
-	var repalce = document.getElementById('grid-container');
 	repalce.insertAdjacentHTML('afterbegin', html);
 }
 
+var montant = montantCredit - montantDebit;
 var solde = document.getElementById('solde');
-solde.innerHTML = montantCredit - montantDebit + '.00€';
+solde.innerHTML = montant + '.00€';
+var goodBad = document.getElementById("goodBad");
+if(montant >= 1000){
+  goodBad.innerHTML = "on est bien 😃";
+  goodBad.classList.remove("bad");
+  goodBad.classList.add("good");
+}else{
+  goodBad.innerHTML = "on est mal :(";
+  goodBad.classList.remove("good");
+  goodBad.classList.add("bad");
+}
 
 /*
     var get = function(tableauGet){
