@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(document).foundation();
+	$(document).foundation();
 });
 console.log('Bijour Bank !');
 /**
@@ -18,15 +18,27 @@ function setData() {
 let montantCredit = 0;
 let montantDebit = 0;
 for (let i = 0; i < localStorage.length; i++) {
-    const element = localStorage.key(i);
+	const element = localStorage.key(i);
 	let obj = JSON.parse(localStorage.getItem(element));
 	var img = '';
 	if (obj.operator == 'credit') {
 		img = 'sac-dargent';
-        montantCredit = montantCredit + Number(obj.montant);
+		montantCredit = montantCredit + Number(obj.montant);
 	} else {
 		img = 'depenses';
-        montantDebit = montantDebit + Number(obj.montant);
+		montantDebit = montantDebit + Number(obj.montant);
+	}
+
+  let montantCreditTotal = 0;
+  let montantDebitTotal = 0;
+	for (let j = 0; j < localStorage.length; j++) {
+    const elementTotal = localStorage.key(j);
+    let objTotal = JSON.parse(localStorage.getItem(elementTotal));
+		if (objTotal.operator == 'credit') {
+			montantCreditTotal = montantCreditTotal + Number(objTotal.montant);
+		} else {
+			montantDebitTotal = montantDebitTotal + Number(objTotal.montant);
+		}
 	}
 
 	var html = `
@@ -46,23 +58,22 @@ for (let i = 0; i < localStorage.length; i++) {
                 </div>
                 <div class="cell small-3 text-right">
                     <div>
-                        <p class="count">${obj.montant} €</p>
-                        <small>100%</small>
+                        <p class="count">${obj.montant}€</p>
+                        <small>${ obj.operator == "credit" ? 100 * obj.montant / montantCreditTotal : 100 * obj.montant / montantDebitTotal}%</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     `;
-    var repalce = document.getElementById('grid-container');
+	var repalce = document.getElementById('grid-container');
 	repalce.insertAdjacentHTML('afterend', html);
 }
 
-var solde = document.getElementById("solde");
-solde.innerHTML = montantCredit - montantDebit + ".00€";
+var solde = document.getElementById('solde');
+solde.innerHTML = montantCredit - montantDebit + '.00€';
 
-
-	/*
+/*
     var get = function(tableauGet){
       var tableau = new Array();
       for(let i = 0 ; i < tableauGet.length ; i++){
