@@ -15,7 +15,11 @@ for (let i = 0; i < localStorage.length; i++) {
 }
 
 var DATA_COUNT = datapoints.length + 2;
-const labels = [];
+const labels = [0];
+for (let i = 0; i < localStorage.length; i++) {
+	let obj = JSON.parse(localStorage.getItem(i));
+  labels.push(obj.titre);
+}
 for (let i = 0; i < DATA_COUNT; ++i) {
   labels.push(i.toString());
 }
