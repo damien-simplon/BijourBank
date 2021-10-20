@@ -59,8 +59,7 @@ var affichageHTML = function (obj) {
 	let montantCreditTotal = 0;
 	let montantDebitTotal = 0;
 	for (let j = 0; j < localStorage.length; j++) {
-		let elementTotal = localStorage.key(j);
-		let objTotal = JSON.parse(localStorage.getItem(elementTotal));
+		let objTotal = JSON.parse(localStorage.getItem(j));
 		if (objTotal.operator == 'credit') {
 			montantCreditTotal = montantCreditTotal + Number(objTotal.montant);
 		} else {
@@ -87,8 +86,8 @@ var affichageHTML = function (obj) {
                     <p class="count">${obj.montant}€</p>
                     <small>${
 						obj.operator == 'credit'
-							? (100 * obj.montant) / montantCreditTotal
-							: (100 * obj.montant) / montantDebitTotal
+							? ((100 * obj.montant) / montantCreditTotal).toFixed(2)
+							: ((100 * obj.montant) / montantDebitTotal).toFixed(2)
 					}%</small>
                 </div>
             </div>
