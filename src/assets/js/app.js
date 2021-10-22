@@ -22,9 +22,20 @@ function setData() {
 }
 
 var affichageSuperieur = function () {
-	var montant = montantCredit - montantDebit;
+	var soldeTotal = 0;
+	var montantCredit = 0;
+	var montantDebit = 0;
+	for (let i = 0; i < localStorage.length; i++) {
+		var obj = JSON.parse(localStorage.getItem(i));
+		if (obj.operator == 'credit') {
+			montantCredit = montantCredit + Number(obj.montant);
+		} else {
+			montantDebit = montantDebit + Number(obj.montant);
+		}
+		soldeTotal = montantCredit - montantDebit;
+	}
 	var solde = document.getElementById('solde');
-	solde.innerHTML = montant + '.00€';
+	solde.innerHTML = soldeTotal + '.00€';
 	var goodBad = document.getElementById('goodBad');
 	if (montant >= 1000) {
 		goodBad.innerHTML = 'on est bien 😃';
@@ -133,7 +144,7 @@ function view(cd) {
 		for (let i = 0; i < localStorage.length; i++) {
 			var obj = JSON.parse(localStorage.getItem(i));
 			if (obj.operator == cd) {
-				let html = affichageHTML(obj,i);
+				let html = affichageHTML(obj, i);
 				repalce.insertAdjacentHTML('afterbegin', html);
 			}
 		}
