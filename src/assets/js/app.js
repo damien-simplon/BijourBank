@@ -73,13 +73,10 @@ var affichageHTML = function (obj, i) {
 	}
 
 	var soldeTotal = 0;
-	console.log('i : ' + i);
 	var j = 0;
 	if (i == 0) {
-		console.log('i == 0');
 		soldeTotal = Number(obj.montant);
 	} else {
-		console.log('i != 0');
 		for (j = 0; j < i; j++) {
 			var objDerniereOperation = JSON.parse(localStorage.getItem(j));
 			if (objDerniereOperation.operator == 'credit') {
@@ -90,13 +87,9 @@ var affichageHTML = function (obj, i) {
 		}
 	}
 
-	console.log('soldeTotal : ' + soldeTotal);
 	soldeSoustraire = soldeTotal - soldeActuel;
-	console.log('soldeSoustraire : ' + soldeSoustraire);
 
-	//(( 1200 - 750 ) / 1200) * 100 = 37.5
 	var pourcentage = ((soldeSoustraire - soldeTotal) / soldeTotal) * 100;
-	console.log('pourcentage : ' + pourcentage);
 
 	var html = `
     <div class="operation ${obj.operator}">
