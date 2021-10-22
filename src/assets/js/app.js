@@ -133,7 +133,7 @@ function view(cd) {
 		for (let i = 0; i < localStorage.length; i++) {
 			var obj = JSON.parse(localStorage.getItem(i));
 			if (obj.operator == cd) {
-				let html = affichageHTML(obj);
+				let html = affichageHTML(obj,i);
 				repalce.insertAdjacentHTML('afterbegin', html);
 			}
 		}
