@@ -41,31 +41,51 @@ var affichage = function () {
 	for (let i = 0; i < localStorage.length; i++) {
 		var obj = JSON.parse(localStorage.getItem(i));
 
-		let html = affichageHTML(obj);
+		let html = affichageHTML(obj, i);
 		repalce.insertAdjacentHTML('afterbegin', html);
 	}
 };
 
-var affichageHTML = function (obj) {
+var affichageHTML = function (obj, i) {
 	let img = '';
+	var montantCredit = 0;
+	var montantDebit = 0;
+	var soldeActuel = 0;
 	if (obj.operator == 'credit') {
 		img = 'sac-dargent';
 		montantCredit = montantCredit + Number(obj.montant);
+		soldeActuel = Number(obj.montant);
 	} else {
 		img = 'depenses';
 		montantDebit = montantDebit + Number(obj.montant);
+		soldeActuel = Number(obj.montant);
 	}
 
-	let montantCreditTotal = 0;
-	let montantDebitTotal = 0;
-	for (let j = 0; j < localStorage.length; j++) {
-		let objTotal = JSON.parse(localStorage.getItem(j));
-		if (objTotal.operator == 'credit') {
-			montantCreditTotal = montantCreditTotal + Number(objTotal.montant);
-		} else {
-			montantDebitTotal = montantDebitTotal + Number(objTotal.montant);
+	var soldeTotal = 0;
+	console.log('i : ' + i);
+	var j = 0;
+	if (i == 0) {
+		console.log('i == 0');
+		soldeTotal = Number(obj.montant);
+	} else {
+		console.log('i != 0');
+		for (j = 0; j < i; j++) {
+			var objDerniereOperation = JSON.parse(localStorage.getItem(j));
+			if (objDerniereOperation.operator == 'credit') {
+				soldeTotal = soldeTotal + Number(objDerniereOperation.montant);
+			} else {
+				soldeTotal = soldeTotal - Number(objDerniereOperation.montant);
+			}
 		}
 	}
+
+	console.log('soldeTotal : ' + soldeTotal);
+	soldeSoustraire = soldeTotal - soldeActuel;
+	console.log('soldeSoustraire : ' + soldeSoustraire);
+
+	//(( 1200 - 750 ) / 1200) * 100 = 37.5
+	var pourcentage = ((soldeSoustraire - soldeTotal) / soldeTotal) * 100;
+	console.log('pourcentage : ' + pourcentage);
 
 	var html = `
     <div class="operation ${obj.operator}">
@@ -84,11 +104,7 @@ var affichageHTML = function (obj) {
             <div class="cell small-3 text-right">
                 <div>
                     <p class="count">${obj.montant}€</p>
-                    <small>${
-						obj.operator == 'credit'
-							? ((100 * obj.montant) / montantCreditTotal).toFixed(2)
-							: ((100 * obj.montant) / montantDebitTotal).toFixed(2)
-					}%</small>
+                    <small>${Math.abs(pourcentage).toFixed(2)}%<small>
                 </div>
             </div>
         </div>
